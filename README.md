@@ -11,7 +11,8 @@
 `http://localhost:8080`
 
 เข้าใช้งาน r506-db ให้ระบุดังนี้
-`Server: r506-db
+
+` Server: r506-db
 Username: user
 Password: user
 `
