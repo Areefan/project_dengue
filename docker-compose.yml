@@ -1,0 +1,35 @@
+version: '3'
+services:
+  r506-db:
+    image: mariadb
+    container_name: r506-db
+    environment:
+      MYSQL_ROOT_PASSWORD: my_secret_password
+      MYSQL_DATABASE: r506
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+    ports:
+      - "6001:3306"
+    volumes:
+      - r506_pipeline-dbdata:/var/lib/mysql
+      - r506_pipeline-dblog:/var/log/mysql
+      - ./r506_pipeline/config/my.conf:/etc/mysql/conf.d/config-file.cnf
+      - ./r506_pipeline/init:/docker-entrypoint-initdb.d
+    networks:
+      - moph-network
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8080:80
+    networks:
+      - moph-network
+volumes:
+  r506_pipeline-dbdata: {}
+  r506_pipeline-dblog: {}
+networks:
+  moph-network:
+    driver: bridge
