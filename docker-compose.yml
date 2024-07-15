@@ -17,6 +17,19 @@ services:
       - ./r506_pipeline/init:/docker-entrypoint-initdb.d
     networks:
       - moph-network
+  dengue:
+    container_name: dengue
+    ports:
+      - "3001:80"
+    build:
+      context: ./dengue
+      dockerfile: Dockerfile
+    depends_on:
+      - r506-db
+    volumes:
+      - ./dengue:/usr/src/app
+    networks:
+      - moph-network
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin

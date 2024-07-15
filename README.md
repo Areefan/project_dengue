@@ -16,3 +16,11 @@
 Username: user
 Password: user
 `
+### หรือ เช้าใช้ผ่าน NAVICAT
+
+` 
+Host: localhost
+PORT: 6001
+Username: user
+Password: user
+`
