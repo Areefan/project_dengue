@@ -1,5 +1,10 @@
-fastapi
 pandas
 pymysql
+seaborn
 sqlalchemy
 requests
+Prophet
+scikit-learn 
+scipy
+matplotlib
+statsmodels

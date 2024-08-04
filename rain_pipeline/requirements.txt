@@ -3,3 +3,5 @@ pymysql
 sqlalchemy
 requests
 seaborn
+Prophet
+sklearn

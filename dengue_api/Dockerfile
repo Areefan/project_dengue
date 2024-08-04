@@ -1,16 +1,23 @@
+# Use an official Python runtime as a parent image
 FROM python:3.9.7
-WORKDIR /usr/src/app
-RUN apt-get update && apt-get install -y \
-	libsasl2-dev \
-	python-dev \
-	libldap2-dev \
-	libssl-dev
-COPY requirements.txt .
+
+# Set the working directory to /app
+WORKDIR /app
+
+# Install Jupyter Notebook
+RUN pip install jupyter
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
-COPY . .
-RUN groupadd -r python && useradd -r -g python python
-RUN apt-get update \ 
-	&& apt-get install -y apt-transport-https \
-	&& apt-get install mariadb-client -y
-USER python
-CMD ["fastapi", "run", "main.py", "--port", "80"]
+
+# Make port 8888 available to the world outside this container
+EXPOSE 8888
+
+# Define environment variable
+# ENV NAME World
+
+# Run Jupyter Notebook when the container launches
+CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]

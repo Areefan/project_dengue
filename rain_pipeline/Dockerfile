@@ -15,3 +15,4 @@ RUN apt-get update \
 	&& apt-get install mariadb-client -y
 USER python
 CMD [ "run", "main.py"]
+
