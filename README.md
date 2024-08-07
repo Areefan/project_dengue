@@ -16,7 +16,7 @@ just copy paste token and click on login.
 https://medium.com/@18bhavyasharma/setting-up-and-running-jupyter-notebook-in-a-docker-container-d2acd713ce66
 
 
-### เรียกใช้คำสั่ง Docker
+### เรียกใช้คำสั่ง Docker 
 
 `docker-compose up -d -- build`
 
@@ -32,7 +32,7 @@ https://medium.com/@18bhavyasharma/setting-up-and-running-jupyter-notebook-in-a-
 Username: user
 Password: user
 `
-### หรือ เช้าใช้ผ่าน NAVICAT
+### หรือ เข้าใช้งานฐานข้อมูลผ่าน NAVICAT
 
 ` 
 Host: localhost
@@ -40,3 +40,11 @@ PORT: 6001
 Username: user
 Password: user
 `
+
+### เข้าใช้งานผ่าน Portainer เพื่อดู log ของ service
+
+` http://localhost:9000 `
+
+### เข้าใช้งาน API
+
+` http://localhost:8000/docs `
