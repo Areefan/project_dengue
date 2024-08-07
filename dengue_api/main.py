@@ -12,19 +12,27 @@ def get_all_case_data():
 	conn_str = 'mysql+pymysql://user:user@dengue-db:3306/dengue'
 	engine = sa.create_engine(conn_str)
 	conn = engine.connect()
-	cases = pd.read_sql("cases", conn)
+	cases = pd.read_sql("allcases", conn)
+	cases = pd.DataFrame(cases)
+	cases = cases.tail(5)
 	conn.close()
-
 	return cases
 
 @app.get("/")
-async def root():
-	return {'status': 'Online'}
+async def status():
+	return {
+		"status" : "success",
+		"message" : "Online"
+	}
 
 @app.get("/cases")
-async def root():
+async def getcase():
 	cases = get_all_case_data()
-	return cases.to_dict("records")
+	return {
+		"status" : "success",
+		"message" : cases.to_dict("records")
+	}
+	# return cases.to_dict("records")
 
 # @app.get("/with-district/{code}")
 # async def with_district():

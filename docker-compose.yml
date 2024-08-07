@@ -21,6 +21,7 @@ services:
     container_name: dengue-api
     ports:
       - "6002:80"
+      - "8000:8000"
     build:
       context: ./dengue_api
       dockerfile: Dockerfile

@@ -4,3 +4,4 @@ seaborn
 sqlalchemy
 requests
 fastapi[standard]
+uvicorn
