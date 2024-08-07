@@ -1,0 +1,1 @@
+00 00 * * * cd /press_pipeline_cronjob && /usr/local/bin/python main.py >> cron.log 2>&1

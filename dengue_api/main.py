@@ -9,7 +9,7 @@ app = FastAPI()
 
 def get_all_case_data():
 
-	conn_str = 'mysql+pymysql://user:user@r506-db:3306/r506'
+	conn_str = 'mysql+pymysql://user:user@dengue-db:3306/dengue'
 	engine = sa.create_engine(conn_str)
 	conn = engine.connect()
 	cases = pd.read_sql("cases", conn)
@@ -19,12 +19,16 @@ def get_all_case_data():
 
 @app.get("/")
 async def root():
+	return {'status': 'Online'}
+
+@app.get("/cases")
+async def root():
 	cases = get_all_case_data()
 	return cases.to_dict("records")
 
-# @app.get("/with-hospital/")
-# async def with_hospital():
-# 	ncd_screen = get_all_ncd_screen_data()
+# @app.get("/with-district/{code}")
+# async def with_district():
+# 	ncd_screen = get_all_case_data()
 # 	r = requests.get("http://hospital")
 # 	data = r.json()
 # 	hospital = pd.DataFrame(data)

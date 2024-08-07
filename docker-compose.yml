@@ -1,20 +1,33 @@
 version: '3'
 services:
-  r506-db:
+  dengue-db:
     image: mariadb
-    container_name: r506-db
+    container_name: dengue-db
     environment:
       MYSQL_ROOT_PASSWORD: my_secret_password
-      MYSQL_DATABASE: r506
+      MYSQL_DATABASE: dengue
       MYSQL_USER: user
       MYSQL_PASSWORD: user
     ports:
       - "6001:3306"
     volumes:
-      - r506_pipeline-dbdata:/var/lib/mysql
-      - r506_pipeline-dblog:/var/log/mysql
+      - dengue-dbdata:/var/lib/mysql
+      - dengue-dblog:/var/log/mysql
       - ./r506_pipeline/config/my.conf:/etc/mysql/conf.d/config-file.cnf
       - ./r506_pipeline/init:/docker-entrypoint-initdb.d
+    networks:
+      - moph-network
+  dengue-api:
+    container_name: dengue-api
+    ports:
+      - "6002:80"
+    build:
+      context: ./dengue_api
+      dockerfile: Dockerfile
+    depends_on:
+      - dengue-db
+    volumes:
+      - ./dengue_api:/usr/src/app
     networks:
       - moph-network
   dengue:
@@ -22,12 +35,64 @@ services:
     ports:
       - "3001:80"
     build:
-      context: ./dengue
+      context: ./r506_pipeline
       dockerfile: Dockerfile
     depends_on:
-      - r506-db
+      - dengue-db
     volumes:
-      - ./dengue:/usr/src/app
+      - ./r506_pipeline:/usr/src/app
+    networks:
+      - moph-network
+  dengue-model:
+    container_name: dengue-model
+    ports:
+      - "3003:80"
+    build:
+      context: ./dengue_model
+      dockerfile: Dockerfile
+    depends_on:
+      - dengue-db
+    volumes:
+      - ./dengue_model:/usr/src/app
+    networks:
+      - moph-network
+  temp:
+    container_name: temp
+    ports:
+      - "3002:80"
+    build:
+      context: ./temp_pipeline
+      dockerfile: Dockerfile
+    depends_on:
+      - dengue-db
+    volumes:
+      - ./temp_pipeline:/usr/src/app
+    networks:
+      - moph-network
+  rain:
+    container_name: rain
+    ports:
+      - "3004:80"
+    build:
+      context: ./rain_pipeline
+      dockerfile: Dockerfile
+    depends_on:
+      - dengue-db
+    volumes:
+      - ./rain_pipeline:/usr/src/app
+    networks:
+      - moph-network
+  pressure:
+    container_name: pressure
+    ports:
+      - "3005:80"
+    build:
+      context: ./pressure_pipeline
+      dockerfile: Dockerfile
+    depends_on:
+      - dengue-db
+    volumes:
+      - ./pressure_pipeline:/usr/src/app
     networks:
       - moph-network
   phpmyadmin:
@@ -40,9 +105,21 @@ services:
       - 8080:80
     networks:
       - moph-network
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: always
+    ports:
+      - 8800:8000
+      - 9000:9000
+      - 9443:9443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
 volumes:
-  r506_pipeline-dbdata: {}
-  r506_pipeline-dblog: {}
+  dengue-dbdata: {}
+  dengue-dblog: {}
+  portainer_data: {}
 networks:
   moph-network:
     driver: bridge

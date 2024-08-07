@@ -1,2 +1,2 @@
-CREATE DATABASE IF NOT EXISTS `hospital`;
-GRANT ALL ON `hospital`.* TO 'user'@'%’;
+CREATE DATABASE IF NOT EXISTS `dengue`;
+GRANT ALL ON `dengue`.* TO 'user'@'%’;

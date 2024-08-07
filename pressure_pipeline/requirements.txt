@@ -1,6 +1,7 @@
 pandas
 pymysql
-seaborn
 sqlalchemy
 requests
-fastapi[standard]
+seaborn
+Prophet
+sklearn

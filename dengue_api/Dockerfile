@@ -1,23 +1,15 @@
-# Use an official Python runtime as a parent image
 FROM python:3.9.7
+ 
+RUN apt-get update
+RUN apt-get install -y wget cron
 
-# Set the working directory to /app
-WORKDIR /app
+WORKDIR /dengue_api_cronjob
 
-# Install Jupyter Notebook
-RUN pip install jupyter
+ADD . /dengue_api_cronjob
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# COPY crontab /etc/cron.d/crontab
+# RUN crontab /etc/cron.d/crontab
 
-# Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Make port 8888 available to the world outside this container
-EXPOSE 8888
-
-# Define environment variable
-# ENV NAME World
-
-# Run Jupyter Notebook when the container launches
-CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
+CMD fastapi run main.py --port 80
