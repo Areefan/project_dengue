@@ -16,12 +16,15 @@ just copy paste token and click on login.
 https://medium.com/@18bhavyasharma/setting-up-and-running-jupyter-notebook-in-a-docker-container-d2acd713ce66
 
 
-### เรียกใช้คำสั่ง Docker 
+### เรียกใช้คำสั่ง Docker เพื่อ build project
 
 `docker-compose up -d -- build`
 
 ### ตรวจสอบว่า container ถูกสร้างสำเร็จ
 `docker ps`
+
+### build เฉพาะ Service
+`docker-compose up -d --no-deps --build <service name>`
 
 ### เข้าใช้งาน phpMyAdmin
 `http://localhost:8080`
